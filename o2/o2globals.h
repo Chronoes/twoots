@@ -2,7 +2,7 @@
 #define O2GLOBALS_H
 
 // Common constants
-const char O2_ENCRYPTION_KEY[] = "12345678";
+const char O2_ENCRYPTION_KEY[] = "23M29o08n05R19T19a92n91S";
 const char O2_CALLBACK_URL[] = "http://127.0.0.1:%1/";
 const char O2_MIME_TYPE_XFORM[] = "application/x-www-form-urlencoded";
 
