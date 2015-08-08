@@ -18,6 +18,8 @@ public:
     explicit TwitterAPI(QObject *parent = 0);
 
 signals:
+    void extraTokensReady(const QVariantMap &extraTokens);
+    void linkingSucceeded();
     void timelineReceived(QString replyString);
 public slots:
     void authenticate();
@@ -25,11 +27,13 @@ public slots:
 private slots:
     void onLinkingSuccess();
     void onLinkingFailed();
-    void onReply(QNetworkReply *reply);
+    void onOpenBrowser(const QUrl &url);
+    void onReply();
 
 private:
     O1Twitter *twitter_auth;
     O2SettingsStore *settings;
+    QNetworkReply *reply;
 };
 
 #endif // TWITTERAPI_H

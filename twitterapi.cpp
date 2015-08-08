@@ -1,6 +1,7 @@
 #include "twitterapi.h"
 #include <QSettings>
 #include <QDebug>
+#include <QDesktopServices>
 
 QSettings tokens("private_tokens.ini", QSettings::IniFormat);
 /*
@@ -26,28 +27,43 @@ void TwitterAPI::authenticate() {
     // <--Add connections here later-->
     connect(twitter_auth, SIGNAL(linkingSucceeded()), this, SLOT(onLinkingSuccess()));
     connect(twitter_auth, SIGNAL(linkingFailed()), this, SLOT(onLinkingFailed()));
+    connect(twitter_auth, SIGNAL(openBrowser(QUrl)), this, SLOT(onOpenBrowser(QUrl)));
     twitter_auth->link();
 }
 
 void TwitterAPI::get_timeline() {
     if (!twitter_auth->linked()) {
+        qDebug() << twitter_auth->token();
         qDebug() << "TwitterAPI::Not linked to Twitter!";
         return;
     }
     QNetworkAccessManager *manager = new QNetworkAccessManager(this);
     O1Requestor *requestor = new O1Requestor(manager, twitter_auth, this);
 
-    QUrl url("https://api.twitter.com/1.1/statuses/home_timeline.json");
-    //QList<O1RequestParameter> req_params = QList<O1RequestParameter>();
+    QUrl url("https://api.twitter.com/1.1/statuses/user_timeline.json");
+    QList<O1RequestParameter> req_params = QList<O1RequestParameter>();
 
-    //req_params <<
+    req_params << O1RequestParameter(QByteArray("screen_name"), QByteArray("Chronoes"));
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, O2_MIME_TYPE_XFORM);
-    QNetworkReply *reply = requestor->get(request, QList<O1RequestParameter>());
-    connect(reply, SIGNAL(finished()), this, SLOT(onReply(reply)));
+    reply = requestor->get(request, req_params);
+    connect(reply, SIGNAL(finished()), this, SLOT(onReply()));
 }
 
 void TwitterAPI::onLinkingSuccess() {
+    O1Twitter* o1t = qobject_cast<O1Twitter *>(sender());
+
+    QVariantMap extraTokens = o1t->extraTokens();
+
+    if (!extraTokens.isEmpty()) {
+        emit extraTokensReady(extraTokens);
+
+        qDebug() << "Extra tokens in response:";
+        foreach (QString key, extraTokens.keys()) {
+            qDebug() << "\t" << key << ":" << extraTokens.value(key).toString();
+        }
+    }
+    emit linkingSucceeded();
     qDebug() << "TwitterAPI::Linking success!";
 }
 
@@ -55,6 +71,11 @@ void TwitterAPI::onLinkingFailed() {
     qDebug() << "TwitterAPI::Linking failed!";
 }
 
-void TwitterAPI::onReply(QNetworkReply *reply) {
+void TwitterAPI::onReply() {
     emit timelineReceived(QString(reply->readAll()));
+}
+
+void TwitterAPI::onOpenBrowser(const QUrl &url) {
+    qDebug() << "Opening browser with url" << url.toString();
+    QDesktopServices::openUrl(url);
 }
