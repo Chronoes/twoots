@@ -5,6 +5,7 @@
 #include <QString>
 #include <QUrl>
 #include <QVariantMap>
+#include <QDesktopServices>
 
 #include "o2/o2globals.h"
 #include "o2/o1requestor.h"

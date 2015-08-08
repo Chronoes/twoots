@@ -1,15 +1,7 @@
 #include "twitterapi.h"
-#include <QSettings>
 #include <QDebug>
-#include <QDesktopServices>
 
-QSettings tokens("private_tokens.ini", QSettings::IniFormat);
-/*
-QString consumer_key(tokens.value("ACCESS_TOKEN").toString());
-QString consumer_secret(tokens.value("ACCESS_TOKEN_SECRET").toString());
-*/
-QString consumer_key = tokens.value("CONSUMER_KEY").toString();
-QString consumer_secret = tokens.value("CONSUMER_SECRET").toString();
+#include "keys.h"
 
 TwitterAPI::TwitterAPI(QObject *parent) :
     QObject(parent) {
@@ -17,13 +9,13 @@ TwitterAPI::TwitterAPI(QObject *parent) :
 
 void TwitterAPI::authenticate() {
     twitter_auth = new O1Twitter(this);
-    twitter_auth->setClientId(consumer_key);
-    twitter_auth->setClientSecret(consumer_secret);
+    twitter_auth->setClientId(CONSUMER_KEY);
+    twitter_auth->setClientSecret(CONSUMER_SECRET);
 
     settings = new O2SettingsStore(O2_ENCRYPTION_KEY);
     settings->setGroupKey("twitter");
     twitter_auth->setStore(settings);
-    qDebug() << consumer_key;
+    qDebug() << CONSUMER_KEY;
     // <--Add connections here later-->
     connect(twitter_auth, SIGNAL(linkingSucceeded()), this, SLOT(onLinkingSuccess()));
     connect(twitter_auth, SIGNAL(linkingFailed()), this, SLOT(onLinkingFailed()));
@@ -40,10 +32,10 @@ void TwitterAPI::get_timeline() {
     QNetworkAccessManager *manager = new QNetworkAccessManager(this);
     O1Requestor *requestor = new O1Requestor(manager, twitter_auth, this);
 
-    QUrl url("https://api.twitter.com/1.1/statuses/user_timeline.json");
+    QUrl url("https://api.twitter.com/1.1/statuses/home_timeline.json");
     QList<O1RequestParameter> req_params = QList<O1RequestParameter>();
 
-    req_params << O1RequestParameter(QByteArray("screen_name"), QByteArray("Chronoes"));
+    //req_params << O1RequestParameter(QByteArray("screen_name"), QByteArray("Chronoes"));
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader, O2_MIME_TYPE_XFORM);
     reply = requestor->get(request, req_params);

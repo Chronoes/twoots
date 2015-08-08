@@ -49,7 +49,8 @@ HEADERS  += mainwindow.h \
     o2/o2skydrive.h \
     o2/oxtwitter.h \
     o2/simplecrypt.h \
-    twitterapi.h
+    twitterapi.h \
+    keys.h
 
 FORMS    += mainwindow.ui
 

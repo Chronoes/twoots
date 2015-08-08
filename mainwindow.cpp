@@ -3,24 +3,20 @@
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
-{
+    ui(new Ui::MainWindow) {
     ui->setupUi(this);
     twoots = new TwitterAPI(this);
     connect(twoots, SIGNAL(timelineReceived(QString)), ui->textEdit, SLOT(setPlainText(QString)));
 }
 
-MainWindow::~MainWindow()
-{
+MainWindow::~MainWindow() {
     delete ui;
 }
 
-void MainWindow::on_timeline_clicked()
-{
+void MainWindow::on_timeline_clicked() {
     twoots->get_timeline();
 }
 
-void MainWindow::on_auth_clicked()
-{
+void MainWindow::on_auth_clicked() {
     twoots->authenticate();
 }
