@@ -14,14 +14,40 @@
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QListView" name="listView">
+   <widget class="QPushButton" name="auth">
     <property name="geometry">
      <rect>
-      <x>-5</x>
-      <y>1</y>
-      <width>291</width>
-      <height>481</height>
+      <x>310</x>
+      <y>40</y>
+      <width>75</width>
+      <height>23</height>
      </rect>
+    </property>
+    <property name="text">
+     <string>Auth</string>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="textEdit">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>90</y>
+      <width>551</width>
+      <height>351</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="timeline">
+    <property name="geometry">
+     <rect>
+      <x>400</x>
+      <y>40</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Timeline</string>
     </property>
    </widget>
   </widget>

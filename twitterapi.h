@@ -18,9 +18,14 @@ public:
     explicit TwitterAPI(QObject *parent = 0);
 
 signals:
-
+    void timelineReceived(QString replyString);
 public slots:
     void authenticate();
+    void get_timeline();
+private slots:
+    void onLinkingSuccess();
+    void onLinkingFailed();
+    void onReply(QNetworkReply *reply);
 
 private:
     O1Twitter *twitter_auth;
