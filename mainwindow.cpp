@@ -1,12 +1,13 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-MainWindow::MainWindow(QWidget *parent) :
+MainWindow::MainWindow(QWidget* parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow) {
     ui->setupUi(this);
     twoots = new TwitterAPI(this);
-    connect(twoots, SIGNAL(timelineReceived(QString)), ui->textEdit, SLOT(setPlainText(QString)));
+    requestor = new TwitterRequests(twoots);
+    connect(requestor, SIGNAL(timelineReceived(QString)), ui->textEdit, SLOT(setPlainText(QString)));
 }
 
 MainWindow::~MainWindow() {
@@ -14,7 +15,7 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::on_timeline_clicked() {
-    twoots->get_timeline();
+    requestor->getHomeTimeline();
 }
 
 void MainWindow::on_auth_clicked() {

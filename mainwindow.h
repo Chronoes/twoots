@@ -3,17 +3,17 @@
 
 #include <QMainWindow>
 #include "twitterapi.h"
+#include "twitterrequests.h"
 
 namespace Ui {
-class MainWindow;
+    class MainWindow;
 }
 
-class MainWindow : public QMainWindow
-{
+class MainWindow : public QMainWindow{
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(QWidget* parent = 0);
     ~MainWindow();
 
 private slots:
@@ -22,8 +22,9 @@ private slots:
     void on_auth_clicked();
 
 private:
-    Ui::MainWindow *ui;
-    TwitterAPI *twoots;
+    Ui::MainWindow* ui;
+    TwitterAPI* twoots;
+    TwitterRequests* requestor;
 };
 
 #endif // MAINWINDOW_H

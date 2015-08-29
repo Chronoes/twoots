@@ -27,7 +27,8 @@ SOURCES += main.cpp\
     o2/o2skydrive.cpp \
     o2/oxtwitter.cpp \
     o2/simplecrypt.cpp \
-    twitterapi.cpp
+    twitterapi.cpp \
+    twitterrequests.cpp
 
 HEADERS  += mainwindow.h \
     o2/o1.h \
@@ -50,7 +51,9 @@ HEADERS  += mainwindow.h \
     o2/oxtwitter.h \
     o2/simplecrypt.h \
     twitterapi.h \
-    keys.h
+    keys.h \
+    request_urls.h \
+    twitterrequests.h
 
 FORMS    += mainwindow.ui
 
